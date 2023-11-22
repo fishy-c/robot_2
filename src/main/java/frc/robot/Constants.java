@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.lib.math.Conversions;
 import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -17,12 +18,12 @@ public final class Constants {
         public static final int pigeonID = 0;
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
-        public static final COTSFalconSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
+        public static final COTSFalconSwerveConstants chosenModule =  
             COTSFalconSwerveConstants.SwerveX(COTSFalconSwerveConstants.driveGearRatios.SwerveX);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(23.25); //TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(23.25); //TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(23.25); 
+        public static final double wheelBase = Units.inchesToMeters(23.25); 
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -67,22 +68,22 @@ public final class Constants {
         public static final double angleKF = chosenModule.angleKF;
 
         /* Drive Motor PID Values */
-        public static final double driveKP = 0.05; //TODO: This must be tuned to specific robot
+        public static final double driveKP = 0.05; 
         public static final double driveKI = 0.0;
         public static final double driveKD = 0.0;
         public static final double driveKF = 0.0;
 
         /* Drive Motor Characterization Values 
          * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-        public static final double driveKS = (0.14643 / 12); //TODO: This must be tuned to specific robot
+        public static final double driveKS = (0.14643 / 12); 
         public static final double driveKV = (1.8676 / 12);
         public static final double driveKA = (0.46219 / 12);
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 5.185; //TODO: This must be tuned to specific robot
+        public static final double maxSpeed = 5.185; 
         /** Radians per Second */
-        public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
+        public static final double maxAngularVelocity = 10.0; 
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
@@ -90,7 +91,7 @@ public final class Constants {
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
-        public static final class Mod0 { //TODO: This must be tuned to specific robot (leftFront)
+        public static final class Mod0 { 
             public static final int driveMotorID = 4;
             public static final int angleMotorID = 2;
             public static final int canCoderID = 12;
@@ -100,7 +101,7 @@ public final class Constants {
         }
 
         /* Front Right Module - Module 1 */
-        public static final class Mod1 { //TODO: This must be tuned to specific robot (rightFront)
+        public static final class Mod1 {
             public static final int driveMotorID = 5;
             public static final int angleMotorID = 9;
             public static final int canCoderID = 13;
@@ -110,7 +111,7 @@ public final class Constants {
         }
         
         /* Back Left Module - Module 2 */
-        public static final class Mod2 { //TODO: This must be tuned to specific robot (leftBack)
+        public static final class Mod2 { 
             public static final int driveMotorID = 8;
             public static final int angleMotorID = 7;
             public static final int canCoderID = 14;
@@ -120,7 +121,7 @@ public final class Constants {
         }
 
         /* Back Right Module - Module 3 */
-        public static final class Mod3 { //TODO: This must be tuned to specific robot (rightBack)
+        public static final class Mod3 { 
             public static final int driveMotorID = 3;
             public static final int angleMotorID = 1;
             public static final int canCoderID = 15;
@@ -130,7 +131,65 @@ public final class Constants {
         }
     }
 
-    public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    public static final class Intake{
+        public static final double intakeVolts = 4;
+    }
+
+    public static final class Wrist{
+        public static final double gearRatio = 25.92;
+        public static final double rotorOffset0 =Conversions.DegreesToRotations(0, gearRatio); //wrist starts at bottom (for tuning purposes)
+        public static final double rotorOffset1 =Conversions.DegreesToRotations(80, gearRatio); //wrist starts at top (idk)
+        public static final double maxRangeInDegrees = 80;
+        public static final double minRangeInDegrees = 0;
+        public static final double maxRangeInRotations = Conversions.DegreesToRotations(80, gearRatio); //TODO: refind maxrange
+        public static final double minRangeInRotations = Conversions.DegreesToRotations(0, gearRatio);
+
+        public static final double kP = 0.8; //TODO: retune lol
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kS = 0.05; 
+        public static final double kV = 0; //kv =kf
+        public static final double kG = 0;
+       
+        //prev: v=4000, a=400, no jerk, kP=1.5, kS=2 (in falconunits)
+        public static final double CruiseVelocity = 6; 
+        public static final double Acceleration = 12; 
+        public static final double Jerk = 0; //
+
+        public static final double homingOutput = 0.1;
+        public static double customPos = Conversions.DegreesToRotations(45, gearRatio);
+
+        //public static final double gravityFF = 0.04;
+
+    }
+
+    public static final class Elevator{
+        public static final double gearRatio = 5;
+        public static final double wheelCircumference = 0.052;
+        public static final double maxHeightInMeters = 1.37;
+        public static final double minHeightInMeters = 0;
+        public static final double maxHeightInRotations = Conversions.metersToRotations(1.37, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio);
+        public static final double minHeightInRotations = Conversions.metersToRotations(0, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio);
+
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kS = 0;
+        public static final double kV = 0;
+
+        public static final double gravityFF = 0;
+
+        public static final double CruiseVelocity = 7; //27000
+        public static final double Acceleration = 14; //30000
+        public static final double Jerk = 28; //idk
+
+        public static final double testOutput = 0.3;
+        public static final double homingOutput = -0.2;
+        public static final double customHeight = Conversions.metersToRotations(1.37, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio);
+
+    }
+
+    public static final class AutoConstants { 
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
