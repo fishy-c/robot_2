@@ -2,6 +2,7 @@ package frc.robot.subsystems.Wrist;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -32,10 +33,12 @@ public class Wrist extends SubsystemBase{
         wristIO.wristConfiguration();
     }
 
+
     @Override
     public void periodic(){
         wristIO.updateInputs(inputs);
         wristIO.updateTunableNumbers();
+        wristIO.smartdashboard();
         Logger.getInstance().processInputs("Wrist", inputs);
     }
 }

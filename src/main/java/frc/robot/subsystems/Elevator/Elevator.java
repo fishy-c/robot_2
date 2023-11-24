@@ -34,6 +34,6 @@ public class Elevator extends SubsystemBase{
     public void periodic(){
         elevatorIO.updateInputs(inputs);
         elevatorIO.updateTunableNumbers(); 
-        Logger.getInstance().processInputs("Wrist", inputs);
+        Logger.getInstance().processInputs("Elevator", inputs);
     }
 }

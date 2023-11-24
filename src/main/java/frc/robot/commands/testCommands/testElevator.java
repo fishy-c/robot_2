@@ -25,6 +25,7 @@ public class testElevator extends CommandBase{
     @Override
     public void execute(){
         if(testOutput){
+            System.out.printf("EXECUTING ELEVATOR");
             Elevator.setOutput(output);
         }
         else{

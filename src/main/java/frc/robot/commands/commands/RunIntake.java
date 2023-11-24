@@ -25,10 +25,10 @@ public class RunIntake extends CommandBase{
         double output = Constants.Intake.intakeVolts;
         if(intakeOutake){
             Intake.setIntakeOutake(true);
+            output *= -1;
         }
         else{
             Intake.setIntakeOutake(false);
-            output *= -1;
         }
         Intake.intakeSpin(output);
     }

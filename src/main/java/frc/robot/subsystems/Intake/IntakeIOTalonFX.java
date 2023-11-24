@@ -12,7 +12,7 @@ public class IntakeIOTalonFX implements IntakeIO{
     public IntakeIOTalonFX(int motorID){
         intake= new TalonFX(motorID);
         var intakeConfigs = new TalonFXConfiguration();
-        intakeConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        intakeConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
         intake.getConfigurator().apply(intakeConfigs);
     }

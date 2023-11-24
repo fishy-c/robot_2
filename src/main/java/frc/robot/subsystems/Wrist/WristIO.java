@@ -23,6 +23,8 @@ public default void moveWrist(){}
 
 public default void homing(){}
 
+public default void smartdashboard(){}
+
 public default void wristConfiguration(){}
 
     

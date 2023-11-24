@@ -51,18 +51,19 @@ public class RobotContainer {
      //private final JoystickButton LowerElevator = new JoystickButton(operator, XboxController.Button.kB.value);
 
      /* test wrist buttons */
+     /* 
      private final JoystickButton Wrist0 = new JoystickButton(operator, XboxController.Button.kB.value);
      private final JoystickButton Wrist1 = new JoystickButton(operator, XboxController.Button.kA.value);
      private final JoystickButton Wrist2 = new JoystickButton(operator, XboxController.Button.kX.value);
      private final JoystickButton Wrist3 = new JoystickButton(operator, XboxController.Button.kY.value);
-
+    */
      /* test elevator buttons */
-     /* 
+     
      private final JoystickButton Elevator0 = new JoystickButton(operator, XboxController.Button.kB.value);
      private final JoystickButton Elevator1 = new JoystickButton(operator, XboxController.Button.kA.value);
      private final JoystickButton Elevator2 = new JoystickButton(operator, XboxController.Button.kX.value);
      private final JoystickButton Elevator3 = new JoystickButton(operator, XboxController.Button.kY.value);
-     */
+     
     /* Subsystems */
     
     private final Swerve s_Swerve = new Swerve();
@@ -104,22 +105,24 @@ public class RobotContainer {
         RunOutake.whileTrue(new RunIntake(s_Intake, false));
 
         /* wrist test controls */
-        Wrist0.onTrue(new testWrist(s_Wrist, true, 0.1, 0)); //b button: raise
-        Wrist1.onTrue(new testWrist(s_Wrist, true, -0.1, 0)); //a button: lower
-        // Wrist0.onTrue(new testWrist(s_Wrist, false, 0, 0)); //b
-        // Wrist1.onTrue(new testWrist(s_Wrist, false, 0, 30)); //a
+        /* 
+        //Wrist0.onTrue(new testWrist(s_Wrist, true, 0.3, 0)); //b button: raise
+        //Wrist1.onTrue(new testWrist(s_Wrist, true, -0.1, 0)); //a button: lower
+        Wrist0.onTrue(new testWrist(s_Wrist, false, 0, 0)); //b
+        Wrist1.onTrue(new testWrist(s_Wrist, false, 0, 30)); //a
         Wrist2.onTrue(new testWrist(s_Wrist, false, 0, 60)); //x
-        Wrist3.onTrue(new testWrist(s_Wrist, false, 0, 80)); //y
+        Wrist3.onTrue(new testWrist(s_Wrist, false, 0, 95)); //y
+        */
 
         /* elevator test controls */
-        /* 
-        Elevator0.onTrue(new testElevator(s_Elevator, true, 0.3, 0)); //b button: raise
-        Elevator1.onTrue(new testElevator(s_Elevator, true, -0.3, 0)); //a button: lower
+        
+        Elevator0.onTrue(new testElevator(s_Elevator, true, 6, 0)); //b button: raise
+        Elevator1.onTrue(new testElevator(s_Elevator, true, -0.1, 0)); //a button: lower
         // Elevator0.onTrue(new testElevator(s_Elevator, false, 0, 0)); //b
         // Elevator1.onTrue(new testElevator(s_Elevator, false, 0, 0.4)); //a
         Elevator2.onTrue(new testElevator(s_Elevator, false, 0, 0.8)); //x
         Elevator3.onTrue(new testElevator(s_Elevator, false, 0, 1.37)); //y
-        */
+        
 
         /* real controls */
         //RaiseWrist.onTrue(new RunWrist(s_Wrist, true));

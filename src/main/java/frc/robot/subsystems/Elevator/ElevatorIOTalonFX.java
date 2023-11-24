@@ -2,6 +2,7 @@ package frc.robot.subsystems.Elevator;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
@@ -9,7 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-import com.ctre.phoenix6.signals.GravityTypeValue;
+//import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -26,7 +27,8 @@ public class ElevatorIOTalonFX implements ElevatorIO{
     private final TalonFXConfigurator rightMotorConfigurator;
     private double startTime;
     private MotionMagicVoltage motionMagicRequest; 
-    private DutyCycleOut dutyCycleRequest;
+    //private DutyCycleOut dutyCycleRequest;
+    private VoltageOut voltageOutRequest;
     double setPoint;
 
     LoggedTunableNumber kP = new LoggedTunableNumber("Elevator/kP", 0);
@@ -46,6 +48,9 @@ public class ElevatorIOTalonFX implements ElevatorIO{
         rightMotorConfigurator = rightMotor.getConfigurator();
         leftMotorConfigs = new TalonFXConfiguration();
         rightMotorConfigs = new TalonFXConfiguration();
+        //dutyCycleRequest = new DutyCycleOut(0);
+        voltageOutRequest = new VoltageOut(0);
+        motionMagicRequest = new MotionMagicVoltage(0);
         setPoint = 0;  
 
     }
@@ -75,22 +80,24 @@ public class ElevatorIOTalonFX implements ElevatorIO{
     }
 
     public void setOutput(double output){
-        leftMotor.setControl(dutyCycleRequest.withOutput(output));
+        //leftMotor.setControl(dutyCycleRequest.withOutput(output));
+        leftMotor.setControl(voltageOutRequest.withOutput(output));
     }
 
     public void setElevator(){
-        leftMotor.setControl(motionMagicRequest.withPosition(Conversions.metersToRotations(setPoint, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio)));   
+        leftMotor.setControl(motionMagicRequest.withPosition(Conversions.metersToRotations(setPoint, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio)).withFeedForward(kG.get()));   
     }
     
-    public void homing(){
+    /*public void homing(){
         startTime = Timer.getFPGATimestamp();
         leftMotor.setControl(dutyCycleRequest.withOutput(Constants.Elevator.homingOutput));
         if(((Timer.getFPGATimestamp()-startTime) < 2) && leftMotor.getRotorVelocity().getValue() < 0.1){
             leftMotor.setControl(dutyCycleRequest.withOutput(0));
-            leftMotorConfigs.Feedback.FeedbackRotorOffset = Constants.Elevator.minHeightInRotations;
+            //leftMotorConfigs.Feedback.FeedbackRotorOffset = Constants.Elevator.minHeightInRotations;
+            leftMotor.setRotorPosition(Constants.Elevator.minHeightInRotations);
             leftMotorConfigurator.apply(leftMotorConfigs);
         }
-    }
+    }*/
 
     public double getElevatorHeight(){
         return Conversions.RotationsToMeters(leftMotor.getRotorPosition().getValue(), Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio);
@@ -109,8 +116,8 @@ public class ElevatorIOTalonFX implements ElevatorIO{
         slot0Configs.kD = kD.get();
         slot0Configs.kS = kS.get();
         slot0Configs.kV = kV.get();
-        slot0Configs.kG = kG.get();
-        slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
+        //slot0Configs.kG = kG.get();
+        //slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
         
         var motionMagicConfigs = leftMotorConfigs.MotionMagic;
         motionMagicConfigs.MotionMagicCruiseVelocity = kMotionCruiseVelocity.get();
@@ -119,12 +126,12 @@ public class ElevatorIOTalonFX implements ElevatorIO{
 
         var feedbackConfigs = leftMotorConfigs.Feedback;
         feedbackConfigs.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
-        feedbackConfigs.FeedbackRotorOffset = Constants.Elevator.minHeightInRotations; //TODO: double check max height -> delete this
-        
+        //feedbackConfigs.FeedbackRotorOffset = Constants.Elevator.minHeightInRotations; //TODO: double check max height -> delete this
+        leftMotor.setRotorPosition(Constants.Elevator.minHeightInRotations);
+        rightMotor.setControl(new Follower(leftMotor.getDeviceID(), true));
         leftMotorConfigurator.apply(leftMotorConfigs);
         rightMotorConfigurator.apply(rightMotorConfigs);
-        rightMotor.setControl(new Follower(leftMotor.getDeviceID(), true));
-
+        
     }    
 
 }
