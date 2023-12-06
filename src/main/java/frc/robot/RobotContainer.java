@@ -116,12 +116,12 @@ public class RobotContainer {
 
         /* elevator test controls */
         
-        Elevator0.onTrue(new testElevator(s_Elevator, true, 6, 0)); //b button: raise
-        Elevator1.onTrue(new testElevator(s_Elevator, true, -0.1, 0)); //a button: lower
-        // Elevator0.onTrue(new testElevator(s_Elevator, false, 0, 0)); //b
-        // Elevator1.onTrue(new testElevator(s_Elevator, false, 0, 0.4)); //a
-        Elevator2.onTrue(new testElevator(s_Elevator, false, 0, 0.8)); //x
-        Elevator3.onTrue(new testElevator(s_Elevator, false, 0, 1.37)); //y
+        //Elevator0.onTrue(new testElevator(s_Elevator, true, 4, 0)); //b button: raise
+        //Elevator1.onTrue(new testElevator(s_Elevator, true, -3, 0)); //a button: lower
+        Elevator0.onTrue(new testElevator(s_Elevator, false, 0, 0)); //b
+        Elevator1.onTrue(new testElevator(s_Elevator, false, 0, 0.3)); //a
+        Elevator2.onTrue(new testElevator(s_Elevator, false, 0, 0.5)); //x
+        Elevator3.onTrue(new testElevator(s_Elevator, false, 0, .8)); //y
         
 
         /* real controls */

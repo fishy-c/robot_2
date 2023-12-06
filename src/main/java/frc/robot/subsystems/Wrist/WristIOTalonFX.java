@@ -96,7 +96,6 @@ public class WristIOTalonFX implements WristIO{
 
     public void smartdashboard(){
         SmartDashboard.putNumber("Wrist Pos", getWristPos());
-        SmartDashboard.putNumber("kP", kP.get());
     }
 
     public void wristConfiguration(){

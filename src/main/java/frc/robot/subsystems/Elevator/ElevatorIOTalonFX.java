@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 //import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj.Timer;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.math.Conversions;
 import frc.robot.Constants;
 import frc.robot.commons.LoggedTunableNumber;
@@ -50,7 +50,8 @@ public class ElevatorIOTalonFX implements ElevatorIO{
         rightMotorConfigs = new TalonFXConfiguration();
         //dutyCycleRequest = new DutyCycleOut(0);
         voltageOutRequest = new VoltageOut(0);
-        motionMagicRequest = new MotionMagicVoltage(0);
+        motionMagicRequest = new MotionMagicVoltage(0).withSlot(0);
+        startTime = 0;
         setPoint = 0;  
 
     }
@@ -59,6 +60,7 @@ public class ElevatorIOTalonFX implements ElevatorIO{
         elevatorInputs.appliedVolts = leftMotor.getSupplyVoltage().getValue();
         elevatorInputs.setPoint = setPoint;
         elevatorInputs.elevatorPos = getElevatorHeight();
+        elevatorInputs.drawnCurrent = leftMotor.getSupplyCurrent().getValue();
     }
 
     public void updateTunableNumbers() {
@@ -101,6 +103,15 @@ public class ElevatorIOTalonFX implements ElevatorIO{
 
     public double getElevatorHeight(){
         return Conversions.RotationsToMeters(leftMotor.getRotorPosition().getValue(), Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio);
+    }
+
+    public double getElevatorHeightRotations(){
+        return leftMotor.getRotorPosition().getValue();
+    }
+
+    public void smartdashboard(){
+        SmartDashboard.putNumber("Elevator Position", getElevatorHeight());
+        SmartDashboard.putNumber("Elevator Position Rotor", getElevatorHeightRotations());
     }
 
     public void elevatorConfiguration(){

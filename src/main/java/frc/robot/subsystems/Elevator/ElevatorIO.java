@@ -9,6 +9,7 @@ public interface ElevatorIO {
         public double appliedVolts = 0.0;
         public double setPoint = 0;
         public double elevatorPos = 0;
+        public double drawnCurrent = 0;
     }
 
 
@@ -23,6 +24,8 @@ public default void setOutput(double output){}
 public default void setElevator(){}
 
 public default void homing(){}
+
+public default void smartdashboard(){}
 
 public default void elevatorConfiguration(){}
 }

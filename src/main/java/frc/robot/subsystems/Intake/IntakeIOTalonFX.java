@@ -24,7 +24,6 @@ public class IntakeIOTalonFX implements IntakeIO{
     }
 
     public void setVoltage(double output){
-        System.out.printf("*****RUNNING THE INTAKE****");
         var intakeRequest = new VoltageOut(0);
         intake.setControl(intakeRequest.withOutput(output));
     }

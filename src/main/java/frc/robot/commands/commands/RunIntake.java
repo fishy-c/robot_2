@@ -9,7 +9,6 @@ public class RunIntake extends CommandBase{
     private boolean intakeOutake;
 
     public RunIntake(Intake Intake, boolean intakeOutake){
-        System.out.printf("INTAKE CONSTRUCTOR");
         this.Intake = Intake;
         this.intakeOutake = intakeOutake;
         addRequirements(Intake);
