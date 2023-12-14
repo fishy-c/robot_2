@@ -26,6 +26,7 @@ public class WristIOTalonFX implements WristIO{
     DutyCycleOut dutyCycleRequest;
     double startTime;
     double setPoint;
+    boolean isHomed;
 
     LoggedTunableNumber kP = new LoggedTunableNumber("Wrist/kP", 0);
     LoggedTunableNumber kD = new LoggedTunableNumber("Wrist/kD", 0);
@@ -43,13 +44,14 @@ public class WristIOTalonFX implements WristIO{
         motionMagicRequest = new MotionMagicVoltage(0).withSlot(0);
         dutyCycleRequest = new DutyCycleOut(0);
         setPoint = Constants.Wrist.minRangeInDegrees; //TODO: change to max range after
-
+        isHomed = false;
     }
 
     public void updateInputs(WristIOInputs wristInputs){
         wristInputs.appliedVolts = wrist.getSupplyVoltage().getValue();
         wristInputs.setPoint = setPoint;
         wristInputs.wristPos = getWristPos();
+        wristInputs.temperature = wrist.getDeviceTemp().getValue();
     }
 
     public void updateTunableNumbers() {
@@ -82,12 +84,13 @@ public class WristIOTalonFX implements WristIO{
     public void homing(){
         startTime = Timer.getFPGATimestamp();
         wrist.setControl(dutyCycleRequest.withOutput(Constants.Wrist.homingOutput));
-        if(((Timer.getFPGATimestamp()-startTime) < 2) && wrist.getRotorVelocity().getValue() < 0.1){
+        if(((Timer.getFPGATimestamp()-startTime) > 0.25) && wrist.getRotorVelocity().getValue() < 0.1){
             wrist.setControl(dutyCycleRequest.withOutput(0));
             //wristConfigs.Feedback.FeedbackRotorOffset = Constants.Wrist.rotorOffset1;
-            wrist.setRotorPosition(Constants.Wrist.minRangeInRotations);
+            wrist.setRotorPosition(Constants.Wrist.maxRangeInRotations);
             wristConfigurator.apply(wristConfigs);
         }
+    
     }
 
     public double getWristPos(){

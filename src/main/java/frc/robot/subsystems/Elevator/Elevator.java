@@ -13,6 +13,9 @@ public class Elevator extends SubsystemBase{
       public void setHeight(double setPoint){
         elevatorIO.setHeight(setPoint);
     }
+    public void testOutput(){
+        elevatorIO.testOutput();
+    }
 
     public void setOutput(double output){
         elevatorIO.setOutput(output);

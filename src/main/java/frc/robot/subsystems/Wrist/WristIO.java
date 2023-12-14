@@ -8,6 +8,7 @@ public interface WristIO {
         public double appliedVolts = 0.0;
         public double setPoint = 0.0;
         public double wristPos = 0.0;
+        public double temperature = 0;
     }
 
 

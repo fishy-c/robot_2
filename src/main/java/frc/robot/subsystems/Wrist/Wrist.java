@@ -38,6 +38,7 @@ public class Wrist extends SubsystemBase{
         wristIO.updateInputs(inputs);
         wristIO.updateTunableNumbers();
         wristIO.smartdashboard();
+        //wristIO.homing();
         Logger.getInstance().processInputs("Wrist", inputs);
     }
 }

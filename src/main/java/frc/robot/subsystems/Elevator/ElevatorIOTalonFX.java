@@ -2,6 +2,7 @@ package frc.robot.subsystems.Elevator;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -33,12 +34,14 @@ public class ElevatorIOTalonFX implements ElevatorIO{
 
     LoggedTunableNumber kP = new LoggedTunableNumber("Elevator/kP", 0);
     LoggedTunableNumber kD = new LoggedTunableNumber("Elevator/kD", 0);
-    LoggedTunableNumber kS = new LoggedTunableNumber("Elevator/kS", 0);
+    LoggedTunableNumber kS = new LoggedTunableNumber("Elevator/kS", 1.95);
     LoggedTunableNumber kV = new LoggedTunableNumber("Elevator/kV", 0);
-    LoggedTunableNumber kG = new LoggedTunableNumber("Elevator/kG", 0);
+    LoggedTunableNumber kG = new LoggedTunableNumber("Elevator/kG", 0.01);
     LoggedTunableNumber kMotionCruiseVelocity = new LoggedTunableNumber( "Elevator/kMotionCruiseVelocity",3.0);
     LoggedTunableNumber kMotionAcceleration = new LoggedTunableNumber( "Elevator/kMotionAcceleration",3.0);
     LoggedTunableNumber kMotionJerk = new LoggedTunableNumber("Elevator/kMotionJerk",10000);
+    LoggedTunableNumber elevatorVolts = new LoggedTunableNumber("Elevator/ElevatorVolts", 2);
+
 
 
     public ElevatorIOTalonFX(int leftMotorID, int rightMotorID){
@@ -61,6 +64,9 @@ public class ElevatorIOTalonFX implements ElevatorIO{
         elevatorInputs.setPoint = setPoint;
         elevatorInputs.elevatorPos = getElevatorHeight();
         elevatorInputs.drawnCurrent = leftMotor.getSupplyCurrent().getValue();
+        elevatorInputs.leftTemperature = leftMotor.getDeviceTemp().getValue();
+        elevatorInputs.rightTemperature = rightMotor.getDeviceTemp().getValue();
+        
     }
 
     public void updateTunableNumbers() {
@@ -71,7 +77,8 @@ public class ElevatorIOTalonFX implements ElevatorIO{
           kP.hasChanged(kP.hashCode()) ||
           kMotionAcceleration.hasChanged(kMotionAcceleration.hashCode()) ||
           kMotionCruiseVelocity.hasChanged(kMotionCruiseVelocity.hashCode()) ||
-          kV.hasChanged(kV.hashCode())
+          kV.hasChanged(kV.hashCode())||
+          elevatorVolts.hasChanged(elevatorVolts.hashCode())
         ) {
           elevatorConfiguration();
         }
@@ -81,13 +88,20 @@ public class ElevatorIOTalonFX implements ElevatorIO{
         setPoint = desiredHeight;
     }
 
+    public void testOutput(){
+        //leftMotor.setControl(dutyCycleRequest.withOutput(output));
+        leftMotor.setControl(voltageOutRequest.withOutput(elevatorVolts.get()));
+    }
+
     public void setOutput(double output){
         //leftMotor.setControl(dutyCycleRequest.withOutput(output));
         leftMotor.setControl(voltageOutRequest.withOutput(output));
     }
 
     public void setElevator(){
-        leftMotor.setControl(motionMagicRequest.withPosition(Conversions.metersToRotations(setPoint, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio)).withFeedForward(kG.get()));   
+        //PositionVoltage positionRequest= new PositionVoltage(0);
+        leftMotor.setControl(motionMagicRequest.withPosition(Conversions.metersToRotations(setPoint, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio)).withFeedForward(kG.get())); 
+        //leftMotor.setControl(positionRequest.withPosition(setPoint).withFeedForward(kG.get()));
     }
     
     /*public void homing(){

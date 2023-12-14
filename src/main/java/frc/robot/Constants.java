@@ -167,7 +167,7 @@ public final class Constants {
         public static final double rotorOffset1 =Conversions.DegreesToRotations(80, gearRatio); //wrist starts at top (idk)
         public static final double maxRangeInDegrees = 80;
         public static final double minRangeInDegrees = 0;
-        public static final double maxRangeInRotations = Conversions.DegreesToRotations(80, gearRatio); //TODO: refind maxrange
+        public static final double maxRangeInRotations = Conversions.DegreesToRotations(112, gearRatio); //TODO: refind maxrange
         public static final double minRangeInRotations = Conversions.DegreesToRotations(0, gearRatio);
 
         public static final double kP = 0.8; //TODO: retune lol

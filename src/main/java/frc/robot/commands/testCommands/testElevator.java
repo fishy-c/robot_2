@@ -6,14 +6,17 @@ import frc.robot.subsystems.Elevator.Elevator;
 public class testElevator extends CommandBase{
     private final Elevator Elevator;
     private final boolean testOutput;
+    private final boolean testing;
     private double output;
     private double setPoint;
 
-    public testElevator(Elevator Elevator, boolean testOutput, double output, double setPoint){
+    public testElevator(Elevator Elevator, boolean testOutput, boolean testing, double output, double setPoint){
         this.Elevator = Elevator;
         this.testOutput = testOutput;
         this.output = output;
         this.setPoint = setPoint;
+        this.testing = testing;
+
         addRequirements(Elevator);
     }
 
@@ -24,7 +27,10 @@ public class testElevator extends CommandBase{
 
     @Override
     public void execute(){
-        if(testOutput){
+        if(testing){
+            Elevator.testOutput();
+        }
+        else if(testOutput){
             System.out.printf("EXECUTING ELEVATOR");
             Elevator.setOutput(output);
         }

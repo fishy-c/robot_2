@@ -64,6 +64,9 @@ public class RobotContainer {
      private final JoystickButton Elevator2 = new JoystickButton(operator, XboxController.Button.kX.value);
      private final JoystickButton Elevator3 = new JoystickButton(operator, XboxController.Button.kY.value);
      
+     private final JoystickButton ElevatorTest0 = new JoystickButton(driver, XboxController.Button.kB.value);
+     private final JoystickButton ElevatorTest1 = new JoystickButton(driver, XboxController.Button.kA.value);
+     
     /* Subsystems */
     
     private final Swerve s_Swerve = new Swerve();
@@ -116,12 +119,12 @@ public class RobotContainer {
 
         /* elevator test controls */
         
-        //Elevator0.onTrue(new testElevator(s_Elevator, true, 4, 0)); //b button: raise
-        //Elevator1.onTrue(new testElevator(s_Elevator, true, -3, 0)); //a button: lower
-        Elevator0.onTrue(new testElevator(s_Elevator, false, 0, 0)); //b
-        Elevator1.onTrue(new testElevator(s_Elevator, false, 0, 0.3)); //a
-        Elevator2.onTrue(new testElevator(s_Elevator, false, 0, 0.5)); //x
-        Elevator3.onTrue(new testElevator(s_Elevator, false, 0, .8)); //y
+        ElevatorTest0.onTrue(new testElevator(s_Elevator, true, true,0, 0)); //b button: raise
+        ElevatorTest1.onTrue(new testElevator(s_Elevator, true, false, 0, 0)); //a button: lower
+        Elevator0.onTrue(new testElevator(s_Elevator, false, false, 0, 0)); //b
+        Elevator1.onTrue(new testElevator(s_Elevator, false, false, 0, 0.3)); //a
+        Elevator2.onTrue(new testElevator(s_Elevator, false,false, 0, 0.5)); //x
+        Elevator3.onTrue(new testElevator(s_Elevator, false,false, 0, .8)); //y
         
 
         /* real controls */

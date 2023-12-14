@@ -10,6 +10,8 @@ public interface ElevatorIO {
         public double setPoint = 0;
         public double elevatorPos = 0;
         public double drawnCurrent = 0;
+        public double leftTemperature = 0;
+        public double rightTemperature = 0;
     }
 
 
@@ -18,6 +20,8 @@ public default void updateInputs(ElevatorIOInputs inputs){}
 public default void updateTunableNumbers(){}
 
 public default void setHeight(double setPoint){}
+
+public default void testOutput(){}
 
 public default void setOutput(double output){}
 
