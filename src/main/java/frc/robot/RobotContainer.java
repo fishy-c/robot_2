@@ -7,20 +7,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.autos.*;
 import frc.robot.commands.commands.RunElevator;
 import frc.robot.commands.commands.RunIntake;
 import frc.robot.commands.commands.RunWrist;
 import frc.robot.commands.commands.TeleopSwerve;
 import frc.robot.commands.testCommands.testWrist;
 import frc.robot.commands.testCommands.testElevator;
-import frc.robot.subsystems.*;
 import frc.robot.subsystems.Elevator.ElevatorIOTalonFX;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeIOTalonFX;
 import frc.robot.subsystems.Wrist.Wrist;
 import frc.robot.subsystems.Wrist.WristIOTalonFX;
 import frc.robot.subsystems.Elevator.Elevator;
+import frc.robot.subsystems.swerve.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -140,8 +139,9 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
+    /* 
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return new exampleAuto(s_Swerve);
-    }
+    }*/
 }

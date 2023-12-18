@@ -1,13 +1,12 @@
 package frc.robot.commands.commands;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.swerve.Swerve;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -35,11 +34,15 @@ public class TeleopSwerve extends CommandBase {
         double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
 
+        double x_speed = translationVal * Constants.Swerve.maxSpeed;
+        double y_speed = strafeVal * Constants.Swerve.maxSpeed;
+        double rot_speed = rotationVal * Constants.Swerve.maxAngularVelocity;
+
         /* Drive */
-        s_Swerve.drive(
-            new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
-            rotationVal * Constants.Swerve.maxAngularVelocity, 
-            !robotCentricSup.getAsBoolean(), 
+        s_Swerve.requestPercent(
+            x_speed, 
+            y_speed,
+            rot_speed, 
             true
         );
     }

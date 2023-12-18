@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends LoggedRobot {
-  public static CTREConfigs ctreConfigs;
 
   private Command m_autonomousCommand;
 
@@ -40,6 +39,7 @@ public class Robot extends LoggedRobot {
      if (isReal()) {
        Logger.getInstance().addDataReceiver(new WPILOGWriter("/U")); // Log to a USB stick
        Logger.getInstance().addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+       
      } else {
        setUseTiming(false); // Run as fast as possible
        String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
@@ -51,7 +51,6 @@ public class Robot extends LoggedRobot {
      Logger.getInstance().start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
     
      System.out.printf("ROBOT START");
-    ctreConfigs = new CTREConfigs();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -83,7 +82,7 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
