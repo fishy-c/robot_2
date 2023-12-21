@@ -85,6 +85,7 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+        s_Swerve.zeroWheels();
         s_Wrist.wristConfiguration();
         s_Elevator.elevatorConfiguration();
         //s_Wrist.homing();

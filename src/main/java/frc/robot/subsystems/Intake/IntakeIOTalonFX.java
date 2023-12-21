@@ -8,23 +8,23 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 public class IntakeIOTalonFX implements IntakeIO{
     private final TalonFX intake;
     private boolean intakeOutake;
+    private VoltageOut intakeRequest;
 
     public IntakeIOTalonFX(int motorID){
         intake= new TalonFX(motorID);
         var intakeConfigs = new TalonFXConfiguration();
         intakeConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        intakeRequest = new VoltageOut(0);
 
         intake.getConfigurator().apply(intakeConfigs);
     }
 
     public void updateInputs(IntakeIOInputs intakeInputs){
-        intakeInputs.appliedVolts = 
-            intake.getSupplyVoltage().getValue();
+        intakeInputs.appliedVolts = intakeRequest.Output;
         intakeInputs.intakeOutake = this.intakeOutake;
     }
 
     public void setVoltage(double output){
-        var intakeRequest = new VoltageOut(0);
         intake.setControl(intakeRequest.withOutput(output));
     }
 

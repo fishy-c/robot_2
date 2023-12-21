@@ -2,7 +2,6 @@ package frc.robot.subsystems.swerve;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
 public class GyroIOPigeon2 implements GyroIO {
@@ -22,7 +21,6 @@ public class GyroIOPigeon2 implements GyroIO {
         inputs.rollDeg = pigeon.getRoll().getValue();
         inputs.pitchRad = Units.degreesToRadians(pigeon.getPitch().getValue());
         inputs.rollRad = Units.degreesToRadians(inputs.rollDeg);
-        //inputs.positionRotation2d = Rotation2d();
         //pigeon.getRawGyro(inputs.xyz_dps);
         //inputs.changeInPitch = filter.calculate(inputs.xyz_dps[1]);
     }
@@ -33,7 +31,4 @@ public class GyroIOPigeon2 implements GyroIO {
         pigeon.setYaw(0.0);
     }
     
-    private Rotation2d Rotation2d(){
-        return pigeon.getRotation2d();
-    }
 }

@@ -16,7 +16,10 @@ public interface ModuleIO {
         public double rawDriveRPM = 0.0;
 
         public double moduleAngleRads = 0.0;
-        public double rawAbsolutePositionDegrees = 0.0;
+        public double moduleAngleDegs = 0.0;
+        public double rawAbsolutePositionRotations = 0.0;
+        public double absolutePositionRadians = 0.0;
+        public double absolutePositionDegrees = 0.0; 
         public double turnAppliedVolts = 0.0;
         public double turnCurrentAmps = 0.0; 
         public double turnTempCelcius = 0.0;
@@ -34,7 +37,7 @@ public interface ModuleIO {
     public default void setDrivePercent(double percent) {}
 
     /** Set the turn motor to a particular angle */
-    public default void setTurnAngle(double positionRads) {}
+    public default void setTurnAngle(double positionDegs) {}
 
     /** Enable or disable drive brake mode */
     public default void setDriveBrakeMode(boolean enable) {}

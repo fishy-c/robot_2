@@ -117,6 +117,7 @@ public class ModuleIOTalonFX implements ModuleIO{
         magnetSensorConfigs.MagnetOffset = 0;
         magnetSensorConfigs.SensorDirection = CANcoderInvert;
         
+        
         driveConfigurator.apply(driveConfigs);
         steerConfigurator.apply(steerConfigs);
         angleEncoderConfigurator.apply(angleEncoderConfigs);
@@ -132,9 +133,12 @@ public class ModuleIOTalonFX implements ModuleIO{
         inputs.driveOutputPercent = driveMotor.get();
         inputs.rawDriveRPM = driveMotor.getRotorVelocity().getValue();
 
-        inputs.moduleAngleRads = Conversions.RotationsToDegrees(steerMotor.getPosition().getValue(), Constants.Swerve.angleGearRatio) * Math.PI/(180.0);
-        inputs.rawAbsolutePositionDegrees = Conversions.RotationsToDegrees(angleEncoder.getAbsolutePosition().getValue(), Constants.Swerve.angleGearRatio);
-       // inputs.turnAppliedVolts = steerMotor.getMotorOutputVoltage();
+        inputs.moduleAngleRads = Units.degreesToRadians(Conversions.RotationsToDegrees(steerMotor.getPosition().getValue(), Constants.Swerve.angleGearRatio));
+        inputs.moduleAngleDegs = Conversions.RotationsToDegrees(steerMotor.getPosition().getValue(), Constants.Swerve.angleGearRatio);
+        inputs.rawAbsolutePositionRotations = angleEncoder.getAbsolutePosition().getValue();
+        inputs.absolutePositionRadians = angleEncoder.getAbsolutePosition().getValue() * 2 * Math.PI;
+        inputs.absolutePositionDegrees = angleEncoder.getAbsolutePosition().getValue() * 360;
+        inputs.turnAppliedVolts = steerMotor.getDutyCycle().getValue() * steerMotor.getSupplyVoltage().getValue();
         inputs.turnCurrentAmps = steerMotor.getStatorCurrent().getValue();
         inputs.turnTempCelcius = steerMotor.getDeviceTemp().getValue();
     }
@@ -179,7 +183,7 @@ public class ModuleIOTalonFX implements ModuleIO{
         double drivePercentOut = optimizedDesiredStates.speedMetersPerSecond / (Constants.Swerve.maxSpeed);
 
         double angleDeg = optimizedDesiredStates.angle.getDegrees();
-        setDriveVelocity(drivePercentOut, false);
+        setDrivePercent(drivePercentOut);
         setTurnAngle(angleDeg);
     }
 
@@ -202,8 +206,10 @@ public class ModuleIOTalonFX implements ModuleIO{
 
     @Override
     public void resetToAbsolute() {
-        double absolutePosition = angleEncoder.getAbsolutePosition().getValue() - Conversions.DegreesToRotations(CANcoderOffset.getDegrees(), Constants.Swerve.angleGearRatio);
-        steerMotor.setRotorPosition(absolutePosition);
+        double absolutePositionDegrees_1 = Units.radiansToDegrees((angleEncoder.getAbsolutePosition().getValue() * 2 * Math.PI) - CANcoderOffset.getRadians());
+        double absolutePositionRotations_1 = Conversions.DegreesToRotations(absolutePositionDegrees_1, Constants.Swerve.angleGearRatio);
+        steerMotor.setRotorPosition(absolutePositionRotations_1);
+
     }
 
     @Override

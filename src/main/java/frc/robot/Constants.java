@@ -1,16 +1,10 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-//import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.math.Conversions;
 
@@ -84,7 +78,7 @@ public final class Constants {
         public static final double anglekV = 0;
 
         /* Drive Motor PID Values */
-        public static final double drivekP = 0.3; //TODO: This must be tuned to specific robot
+        public static final double drivekP = 0.3; 
         public static final double drivekI = 0.0;
         public static final double drivekD = 0.0;
         public static final double drivekS = 0;
