@@ -36,6 +36,10 @@ public interface ModuleIO {
     /** Run the drive motor at a specified percent */
     public default void setDrivePercent(double percent) {}
 
+    public default void testDriveVoltage() {}
+
+    public default void setDriveVoltage(double setVoltage) {}
+
     /** Set the turn motor to a particular angle */
     public default void setTurnAngle(double positionDegs) {}
 

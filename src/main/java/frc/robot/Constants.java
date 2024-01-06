@@ -54,7 +54,11 @@ public final class Constants {
         /* Drivetrain Constants */
         public static final double robotWidth = Units.inchesToMeters(23.25); //TODO: This must be tuned to specific robot
         public static final double robotLength = Units.inchesToMeters(23.25); //TODO: This must be tuned to specific robot
-        public static final double wheelCircumferenceInMeters = 0.75206;
+
+        /* Wheel Dimensions */
+        public static final double wheelCircumferenceInMeters = Units.inchesToMeters(3) * (Math.PI * 2);
+        //public static final double wheelCircumferenceInMeters = 0.75206;
+        public static final double wheelRadiusInMeters = 0;
 
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
@@ -134,7 +138,7 @@ public final class Constants {
 
     public static final class Elevator{
         public static final double gearRatio = 5;
-        public static final double wheelCircumference = 0.159;
+        public static final double wheelCircumference = Units.inchesToMeters(2) * (Math.PI * 2);
         public static final double maxHeightInMeters = 1.37;
         public static final double minHeightInMeters = 0;
         public static final double maxHeightInRotations = Conversions.metersToRotations(1.37, Constants.Elevator.wheelCircumference, Constants.Elevator.gearRatio);

@@ -3,6 +3,7 @@ package frc.robot.subsystems.swerve;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
@@ -41,6 +42,8 @@ public class ModuleIOTalonFX implements ModuleIO{
     private DutyCycleOut driveRequest;
     private PositionDutyCycle steerRequest;
     private VelocityVoltage velocityVoltageRequest;
+    private VoltageOut voltageRequest;
+   
 
     LoggedTunableNumber drivekP = new LoggedTunableNumber("Drive/kP", Constants.Swerve.drivekP);
     LoggedTunableNumber drivekD = new LoggedTunableNumber("Drive/kD", 0);
@@ -51,6 +54,9 @@ public class ModuleIOTalonFX implements ModuleIO{
     LoggedTunableNumber steerkD = new LoggedTunableNumber("Steer/kD", 0);
     LoggedTunableNumber steerkS = new LoggedTunableNumber("Steer/kS", 0);
     LoggedTunableNumber steerkV = new LoggedTunableNumber("Steer/kV", 0);
+    
+    LoggedTunableNumber voltage = new LoggedTunableNumber("Drive/Voltage", 0);
+    
 
 
     public ModuleIOTalonFX(int driveID, int steerID, int CANcoderID, Rotation2d CANcoderOffset, InvertedValue driveInvert, InvertedValue steerInvert, SensorDirectionValue CANcoderInvert, String swerveModuleName){
@@ -70,11 +76,14 @@ public class ModuleIOTalonFX implements ModuleIO{
         driveRequest = new DutyCycleOut(0);
         steerRequest = new PositionDutyCycle(0);
         velocityVoltageRequest = new VelocityVoltage(0);
+        voltageRequest = new VoltageOut(0);
 
 
         var driveMotorOutputConfigs = driveConfigs.MotorOutput;
         driveMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
         driveMotorOutputConfigs.Inverted = driveInvert; 
+        driveMotorOutputConfigs.PeakForwardDutyCycle = 1.0;
+        driveMotorOutputConfigs.PeakReverseDutyCycle = -1.0;
 
         var driveFeedbackConfigs = driveConfigs.Feedback;
         driveFeedbackConfigs.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
@@ -187,6 +196,14 @@ public class ModuleIOTalonFX implements ModuleIO{
         setTurnAngle(angleDeg);
     }
 
+    public void testDriveVoltage(){
+        driveMotor.setControl(voltageRequest.withOutput(voltage.get()));
+    }
+
+    public void setDriveVoltage(double setVoltage){
+        driveMotor.setControl(voltageRequest.withOutput(setVoltage));
+    }
+
     public void setDriveVelocity(double velocityMetersPerSecond, boolean auto) {
         velocityVoltageRequest.Velocity = Conversions.MPStoRPM(velocityMetersPerSecond, Constants.Swerve.wheelCircumferenceInMeters, Constants.Swerve.driveGearRatio);
         driveMotor.setControl(velocityVoltageRequest);
@@ -219,10 +236,14 @@ public class ModuleIOTalonFX implements ModuleIO{
             
             driveMotorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
             driveMotorOutputConfigs.Inverted = driveInvert;
+            driveMotorOutputConfigs.PeakForwardDutyCycle = 1.0;
+            driveMotorOutputConfigs.PeakReverseDutyCycle = -1.0;
         }
         else{
             driveMotorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
             driveMotorOutputConfigs.Inverted = driveInvert;
+            driveMotorOutputConfigs.PeakForwardDutyCycle = 1.0;
+            driveMotorOutputConfigs.PeakReverseDutyCycle = -1.0;
         }
         driveConfigurator.apply(driveMotorOutputConfigs);
     }
